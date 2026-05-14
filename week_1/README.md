@@ -20,47 +20,55 @@ This project builds a 4-stage data pipeline using the Medallion Architecture:
 
 **Steps:**
 1. Clone the repository:
+```
     git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
     cd week_1
+```
 2. Create and activate a virtual environment:
+```
     python -m venv .venv
     source .venv/Scripts/activate # Windows
     source .venv/bin/activate # Mac/Linux
+```
 3. Install dependencies:
+```
     python -m pip install beautifulsoup4 pydantic
+```
 4. Place your `.mhtml` source files inside `data/0_source/`
 
 ---
 
 ## Usage
 Run each stage individually or all at once:
+```
     python main.py ingest # Extract .mhtml → HTML (Bronze)
     python main.py process # Clean HTML → JSON (Silver)
     python main.py load # Load JSON → SQLite (Gold)
     python main.py profile # Run data quality report
     python main.py all # Run full pipeline in order
-
+```
 
 **Expected output (full pipeline):**
-🥉 Bronze: Starting ingestion...
-✅ Extracted: example-job.mhtml
-📊 Bronze Summary: Total: 100 | Extracted: 100 | Failed: 0
+```
+    🥉 Bronze: Starting ingestion...
+    ✅ Extracted: example-job.mhtml
+    📊 Bronze Summary: Total: 100 | Extracted: 100 | Failed: 0
 
-🥈 Silver: Starting processing...
-✅ Processed: example-job.html
-📊 Silver Summary: Total: 100 | Processed: 84 | Skipped: 16
+    🥈 Silver: Starting processing...
+    ✅ Processed: example-job.html
+    📊 Silver Summary: Total: 100 | Processed: 84 | Skipped: 16
 
-🥇 Gold: Starting loading...
-✅ Inserted: example-job.json
-📊 Gold Summary: Total: 84 | Inserted: 84 | Skipped: 0 | Failed: 0
+    🥇 Gold: Starting loading...
+    ✅ Inserted: example-job.json
+    📊 Gold Summary: Total: 84 | Inserted: 84 | Skipped: 0 | Failed: 0
 
---- 🔍 DATA QUALITY REPORT ---
-📈 Total Records: 84
-❓ Missing Values -> job_title: 0, company: 0, description: 0
-📝 Avg Description Length: 1740 chars
-⚠️ Shortest Description: 53 chars
-🚨 Longest Description: 2854 chars
-
+    --- 🔍 DATA QUALITY REPORT ---
+    📈 Total Records: 84
+    ❓ Missing Values -> job_title: 0, company: 0, description: 0
+    📝 Avg Description Length: 1740 chars
+    ⚠️ Shortest Description: 53 chars
+    🚨 Longest Description: 2854 chars
+```
 
 ---
 
@@ -69,8 +77,10 @@ Run each stage individually or all at once:
 ### Module 1: The Extractor (Medallion & Lakehouses)
 Why is it useful to keep the original raw HTML files instead of directly inserting processed data into the database? What problems become easier to debug or recover from?
 
-- **Answer**: Keeping the raw HTML files acts as a safety net. If our cleaning logic has a bug, for example we accidentally extract the wrong field, we can fix the code and rerun the Silver stage without having to redownload all 100 job pages from the internet. 
+- **Answer**: Keeping the raw HTML files acts as a safety net. If our cleaning logic has a bug, for example we accidentally extract the wrong field, we can fix the code and rerun the Silver stage without having to redownload all 100 job pages from the internet.
+``` 
 It also makes debugging easier, if a record looks wrong in the database, we can trace it back to the original HTML file and inspect exactly what the page contained.
+```
 
 ---
 
