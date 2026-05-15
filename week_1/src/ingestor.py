@@ -57,5 +57,3 @@ def ingest_all_mhtml(input_dir, output_dir):
     # Bronze summary
     print("\n📊 Bronze Summary:")
     print(f"Total: {total_files} | Extracted: {extracted} | Failed: {failed}")
-
-# ingest_all_mhtml("../data/0_source", "../data/1_bronze")      
